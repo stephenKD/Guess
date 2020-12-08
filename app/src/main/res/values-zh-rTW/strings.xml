@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">猜數字</string>
+    <string name="string_please_enter_a_number">請輸入數字</string>
+    <string name="string_ok">確認</string>
+    <string name="string_yes_you_got_it">讚！猜對了</string>
+    <string name="string_bigger">大一點</string>
+    <string name="string_smaller">小一點</string>
+    <string name="string_dialog_title">提示訊息</string>
+    <string name="string_reset">重玩</string>
+    <string name="string_replay">重置遊戲</string>
+    <string name="string_are_you_sure">你確定要重玩嗎？</string>
+    <string name="string_cancel">取消</string>
+</resources>
