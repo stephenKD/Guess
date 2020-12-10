@@ -23,11 +23,12 @@ class RecordActivity : AppCompatActivity() {
                 .putString("name", ed_name.text.toString())
                 .putString("number", tv_number.text.toString())
                 .apply()
-            val intent = Intent()
-            intent.putExtra("NUMBER", tv_number.text.toString())
-            intent.putExtra("NAME", ed_name.text.toString())
-
-            setResult(RESULT_OK, intent)
+            val intent = Intent().apply {
+                putExtra("NUMBER", tv_number.text.toString())
+                putExtra("NAME", ed_name.text.toString())
+            }.also { intent ->
+                setResult(RESULT_OK, intent)
+            }
             finish()
         }
     }

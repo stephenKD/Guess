@@ -15,7 +15,6 @@ class GuessViewModel : ViewModel() {
     var result = MutableLiveData<GameResult>()
 
     init {
-        counter.value = 0
         reset()
     }
 
@@ -34,6 +33,7 @@ class GuessViewModel : ViewModel() {
     fun reset() {
         secret = Random().nextInt(10) + 1
         count = 0
+        counter.value = count
         Log.d(TAG, "secret:$secret")
     }
 }
