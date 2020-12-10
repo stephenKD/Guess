@@ -1,7 +1,9 @@
 package com.stephen.guess.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -13,10 +15,13 @@ import com.stephen.guess.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    private val REQUEST_CODE = 100
+    private val TAG = MainActivity::class.java.simpleName
     private lateinit var viewModel: GuessViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d(TAG, "onCreate: ")
         viewModel = ViewModelProvider(this).get(GuessViewModel::class.java)
         viewModel.counter.observe(this, Observer { data ->
             tv_count.text = data.toString()
@@ -30,9 +35,19 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.string_dialog_title))
                 .setMessage(message)
-                .setPositiveButton(getString(R.string.string_ok), null)
+                .setPositiveButton(getString(R.string.string_ok)) { dialog, which ->
+                    if (result == GameResult.BINGO) {
+                        val intent = Intent(this, RecordActivity::class.java)
+                        intent.putExtra("VALUE", ed_number.text.toString())
+                        startActivityForResult(intent, REQUEST_CODE)
+                    }
+                }
                 .show()
         })
+
+        val number = getSharedPreferences("guess", MODE_PRIVATE).getString("number", "0")
+        val name = getSharedPreferences("guess", MODE_PRIVATE).getString("name", "NULL")
+        Log.d(TAG, "secret get shard preferences: $number / $name")
     }
 
     fun replay(view: View) {
@@ -55,4 +70,50 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.guess(num)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Log.d(
+                    TAG,
+                    "activity for result: ${data?.getStringExtra("NUMBER")} / ${
+                        data?.getStringExtra("NAME")
+                    }"
+                )
+                btn_replay.callOnClick()
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: ")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart: ")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
+    }
+
 }
