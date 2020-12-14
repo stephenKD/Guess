@@ -1,7 +1,6 @@
 package com.stephen.guess.view
 
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.stephen.guess.GameResult
 import com.stephen.guess.GuessViewModel
 import com.stephen.guess.R
-import com.stephen.guess.data.GameDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -52,12 +50,12 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "secret get shard preferences: $number / $count")
 
         //Room read test
-        AsyncTask.execute {
-            val list = GameDatabase.getInstance(this)?.recordDao()?.getAll()
-            list?.forEach {
-                Log.d(TAG, "record: ${it.nickname} ${it.counter}")
-            }
-        }
+//        AsyncTask.execute {
+//            val list = GameDatabase.getInstance(this)?.recordDao()?.getAll()
+//            list?.forEach {
+//                Log.d(TAG, "record: ${it.nickname} ${it.counter}")
+//            }
+//        }
 //        //Room test
 //        val database = Room.databaseBuilder(this, GameDatabase::class.java, "game.db").build()
 //        val record = Record("Tom", 1)
