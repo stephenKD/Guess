@@ -1,6 +1,7 @@
 package com.stephen.guess.view
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.stephen.guess.GameResult
 import com.stephen.guess.GuessViewModel
 import com.stephen.guess.R
+import com.stephen.guess.data.GameDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d(TAG, "onCreate: ")
+//        Log.d(TAG, "onCreate: ")
         viewModel = ViewModelProvider(this).get(GuessViewModel::class.java)
         viewModel.counter.observe(this, Observer { data ->
             tv_count.text = data.toString()
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 .setPositiveButton(getString(R.string.string_ok)) { dialog, which ->
                     if (result == GameResult.BINGO) {
                         val intent = Intent(this, RecordActivity::class.java)
-                        intent.putExtra("VALUE", ed_number.text.toString())
+                        intent.putExtra("VALUE", tv_count.text.toString())
                         startActivityForResult(intent, REQUEST_CODE)
                     }
                 }
@@ -46,8 +48,23 @@ class MainActivity : AppCompatActivity() {
         })
 
         val number = getSharedPreferences("guess", MODE_PRIVATE).getString("number", "0")
-        val name = getSharedPreferences("guess", MODE_PRIVATE).getString("name", "NULL")
-        Log.d(TAG, "secret get shard preferences: $number / $name")
+        val count = getSharedPreferences("guess", MODE_PRIVATE).getString("count", "NULL")
+        Log.d(TAG, "secret get shard preferences: $number / $count")
+
+        //Room read test
+        AsyncTask.execute {
+            val list = GameDatabase.getInstance(this)?.recordDao()?.getAll()
+            list?.forEach {
+                Log.d(TAG, "record: ${it.nickname} ${it.counter}")
+            }
+        }
+//        //Room test
+//        val database = Room.databaseBuilder(this, GameDatabase::class.java, "game.db").build()
+//        val record = Record("Tom", 1)
+//        Thread(){
+//            database.recordDao().insert(record)
+//        }.start()
+
     }
 
     fun replay(view: View) {
@@ -77,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 Log.d(
                     TAG,
-                    "activity for result: ${data?.getStringExtra("NUMBER")} / ${
+                    "activity for result: ${data?.getStringExtra("COUNT")} / ${
                         data?.getStringExtra("NAME")
                     }"
                 )
@@ -86,34 +103,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart: ")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume: ")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause: ")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop: ")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d(TAG, "onRestart: ")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy: ")
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        Log.d(TAG, "onStart: ")
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        Log.d(TAG, "onResume: ")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        Log.d(TAG, "onPause: ")
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        Log.d(TAG, "onStop: ")
+//    }
+//
+//    override fun onRestart() {
+//        super.onRestart()
+//        Log.d(TAG, "onRestart: ")
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        Log.d(TAG, "onDestroy: ")
+//    }
 
 }
