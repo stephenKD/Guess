@@ -1,16 +1,15 @@
-package com.stephen.guess.view
+package com.stephen.guess.view.activity
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.stephen.guess.R
-import com.stephen.guess.data.EventResult
+import com.stephen.guess.viewmodel.SnookerViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import java.net.URL
 import kotlin.coroutines.CoroutineContext
 
 class SnookerActivity : AppCompatActivity(), CoroutineScope {
@@ -26,13 +25,18 @@ class SnookerActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_snooker)
         job = Job()
-        launch {
-            val data = URL("http://api.snooker.org/?t=5&s=2020").readText()
-            val result = Gson().fromJson(data, EventResult::class.java)
-            result.forEach {
-                Log.d(TAG, "onCreate: $it")
-            }
-        }.start()
+        val viewModel = ViewModelProvider(this).get(SnookerViewModel::class.java)
+        viewModel.event.observe(this, Observer { events ->
+            Log.d(TAG, "onCreate: ${events.size}")
+        })
+
+//        launch {
+//            val data = URL("http://api.snooker.org/?t=5&s=2020").readText()
+//            val result = Gson().fromJson(data, EventResult::class.java)
+//            result.forEach {
+//                Log.d(TAG, "onCreate: $it")
+//            }
+//        }
 
 //        CoroutineScope(Dispatchers.IO).launch {
 //            val data = URL("http://api.snooker.org/?t=5&s=2020").readText()

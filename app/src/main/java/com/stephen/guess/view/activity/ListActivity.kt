@@ -1,4 +1,4 @@
-package com.stephen.guess.view
+package com.stephen.guess.view.activity
 
 import android.content.Intent
 import android.os.Bundle
