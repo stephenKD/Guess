@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Guess"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.activity.SnookerActivity"></activity>
+        <activity android:name=".view.activity.NewsActivity"></activity>
+        <activity android:name=".view.activity.SnookerActivity" />
         <activity android:name=".view.activity.RecordListActivity" />
         <activity android:name=".view.activity.ListActivity">
             <intent-filter>
