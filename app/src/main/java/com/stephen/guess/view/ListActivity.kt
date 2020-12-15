@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stephen.guess.R
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.item_function_view.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.net.URL
 
 class ListActivity : AppCompatActivity() {
     val functions = listOf<String>(
@@ -26,6 +30,16 @@ class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+
+//        URL("https://www.google.com.tw").openStream().bufferedReader()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val data = URL("http://www.google.com.tw").readText()
+        }
+
+//        Thread{
+//            val data = URL("https://www.google.com.tw").readText()
+//        }.start()
 
         //RecyclerView
         rv_game.layoutManager = LinearLayoutManager(this)
