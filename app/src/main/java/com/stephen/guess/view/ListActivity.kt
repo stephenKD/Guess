@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.item_function_view.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import java.net.URL
 
 class ListActivity : AppCompatActivity() {
@@ -34,7 +35,13 @@ class ListActivity : AppCompatActivity() {
 //        URL("https://www.google.com.tw").openStream().bufferedReader()
 
         CoroutineScope(Dispatchers.IO).launch {
-            val data = URL("http://www.google.com.tw").readText()
+            val data = URL("http://api.snooker.org/?t=5&s=2020").readText()
+            println(data)
+            val array = JSONArray(data)
+            for (i in 0 until array.length()) {
+                val obj = array.getJSONObject(i)
+                println(obj.getInt("ID"))
+            }
         }
 
 //        Thread{
