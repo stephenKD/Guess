@@ -27,9 +27,9 @@ import java.net.URL
 class ListActivity : AppCompatActivity() {
     companion object {
         private val TAG = ListActivity::class.java.simpleName
+        private val REQUEST_CODE_CAMERA = 100
     }
 
-    private val REQUEST_CODE_CAMERA = 100
     val functions = listOf<String>(
         "Camera",
         "Guess game",
@@ -37,7 +37,7 @@ class ListActivity : AppCompatActivity() {
         "Download coupons",
         "News",
         "Snooker",
-        "Maps"
+        "Maps(ViewPager2)"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,6 +111,7 @@ class ListActivity : AppCompatActivity() {
             2 -> startActivity(Intent(this, RecordListActivity::class.java))
             4 -> startActivity(Intent(this, NewsActivity::class.java))
             5 -> startActivity(Intent(this, SnookerActivity::class.java))
+            6 -> startActivity(Intent(this, MapsActivity::class.java))
             else -> return
         }
     }

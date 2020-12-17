@@ -24,7 +24,7 @@ class RecordListActivity : AppCompatActivity(), CoroutineScope {
 
         job = Job()
         //get records
-        launch {
+        launch(Dispatchers.Main) {
             val records = GameDatabase.getInstance(this@RecordListActivity)?.recordDao()?.getAll()
             records?.let {
                 rv_record_list.layoutManager = LinearLayoutManager(this@RecordListActivity)
